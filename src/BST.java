@@ -1,11 +1,23 @@
+// James Yue
+// 4/8/24
+
+// BinaryTree is a program that can do three things: 1. check if a number is part of the tree,
+// 2. recursively sort the tree into three different sorts (preorder, inorder, and postorder),
+// 3. and can correctly insert a number in the tree
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.stream.BaseStream;
 
 /**
  * An Integer Binary Search Tree
- * @author: Your Name Here
- * @version: Date
+ * @author: James Yue
+ * @version: 4/8/24
  */
-
+// C.T. Can write an algorithm to solve a problem recursively, including a base case and a recursive step.
+// C.T. Can trace through a given recursive method to understand its behavior and the results returned when called.
+// C.T. Can use ArrayList methods.
+// C.T. Can write algorithms to traverse and modify Arrays and ArrayLists.
 public class BST {
     private BSTNode root;
 
@@ -46,8 +58,34 @@ public class BST {
      * @param val integer value to search for
      * @return true if val is in the tree, false otherwise
      */
+    // Checks whether a given value is actually in the tree
     public boolean search(int val) {
         // TODO: Complete the search function
+        // Call onto the finder() helper method taking in the root and value
+        return finder(root, val);
+    }
+
+    // C.T. Understand how to use nesting to embed loops and conditionals inside of other loops and conditionals.
+    // Helper method to search()
+    public boolean finder(BSTNode root, int val) {
+        // Base case: If the root is null, the value is not in the tree
+        if (root == null) {
+            return false;
+        }
+        // If the root of the tree equals the value, return true
+        else if (root.getVal() == val)
+        {
+            return true;
+        }
+        // If the value is greater than the root, recursively search the subtree on the left
+        else if (root.getVal() > val)  {
+            return finder(root.getLeft(), val);
+        }
+        // If the value is less than the root, recursively search the subtree on the right
+        else if (root.getVal() < val)  {
+            return finder(root.getRight(), val);
+        }
+        // The value is not found
         return false;
     }
 
@@ -56,7 +94,28 @@ public class BST {
      */
     public ArrayList<BSTNode> getInorder() {
         // TODO: Complete inorder traversal
-        return null;
+        // An ArrayList to store the inorder node's
+        ArrayList<BSTNode> order = new ArrayList<>();
+        // Call to the helper method of inorder, which initiates the traversal
+        inOrder(order, root);
+        // Return the ArrayList that stores the inorder traversal
+        return order;
+    }
+
+    // C.T. Can utilize class-scope instance variables and local parameters in methods.
+    // Helper method to recursively traverse the inorder tree
+    public void inOrder(ArrayList<BSTNode> order, BSTNode current) {
+        // Base case: If current is null, return
+        if (current == null) {
+            return;
+        }
+        // Inorder follows left, root, right
+        // Recursively perform the inorder traversal on the left subtree
+        inOrder(order, current.getLeft());
+        // Add the current node to the ArrayList of order
+        order.add(current);
+        // Recursively perform the inorder traversal on the right subtree
+        inOrder(order, current.getRight());
     }
 
     /**
@@ -64,7 +123,27 @@ public class BST {
      */
     public ArrayList<BSTNode> getPreorder() {
         // TODO: Complete preorder traversal
-        return null;
+        // An ArrayList to store the preorder node's
+        ArrayList<BSTNode> order = new ArrayList<>();
+        // Call to the helper method of preorder, which initiates the traversal
+        preOrder(order, root);
+        // Return the ArrayList that stores the preorder traversal
+        return order;
+    }
+
+    // Helper method to recursively traverse the preorder tree
+    public void preOrder(ArrayList<BSTNode> order, BSTNode current) {
+        // Base case: If current is null, return
+        if (current == null) {
+            return;
+        }
+        // Preorder follows root, left, right
+        // Add the current node to the ArrayList of order
+        order.add(current);
+        // Recursively perform the inorder traversal on the left subtree
+        preOrder(order, current.getLeft());
+        // Recursively perform the inorder traversal on the right subtree
+        preOrder(order, current.getRight());
     }
 
     /**
@@ -72,7 +151,27 @@ public class BST {
      */
     public ArrayList<BSTNode> getPostorder() {
         // TODO: Complete postorder traversal
-        return null;
+        // An ArrayList to store the postorder node's
+        ArrayList<BSTNode> order = new ArrayList<>();
+        // Call to the helper method of postorder, which initiates the traversal
+        postOrder(order, root);
+        // Return the ArrayList that stores the postorder traversal
+        return order;
+    }
+
+    // Helper method to recursively traverse the postorder tree
+    public void postOrder(ArrayList<BSTNode> order, BSTNode current) {
+        // Base case: If current is null, return
+        if (current == null) {
+            return;
+        }
+        // Postorder follows left, right, root
+        // Recursively perform the inorder traversal on the left subtree
+        postOrder(order, current.getLeft());
+        // Recursively perform the inorder traversal on the right subtree
+        postOrder(order, current.getRight());
+        // Add the current node to the ArrayList of order
+        order.add(current);
     }
 
     /**
@@ -81,8 +180,29 @@ public class BST {
      * root instance variable to be the root of the new modified tree.
      * @param val The value ot insert
      */
+    // Insert a new node with a value into the Binary Tree
     public void insert(int val) {
         // TODO: Complete insert
+        // Call the insertNode() method and set it to the root of the Binary Tree
+        root = insertNode(root, val);
+    }
+
+    // Helper method to insert() to insert a new node into the Binary Tree
+    public BSTNode insertNode(BSTNode current, int val) {
+        // Base case: If the current node equals null, create a new node with the value and return it
+        if (current == null) {
+            return new BSTNode(val);
+        }
+        // If the value is less than the current value, recursively insert the node onto the left subtree
+        if (val < current.getVal()) {
+            current.setLeft(insertNode(current.getLeft(), val));
+        }
+        // If the value is greater than the current value, recursively insert the node onto the right subtree
+        else if (val > current.getVal()) {
+            current.setRight(insertNode(current.getRight(), val));
+        }
+        // Return the current node
+        return current;
     }
 
     /**

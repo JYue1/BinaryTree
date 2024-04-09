@@ -1,3 +1,5 @@
+// James Yue
+
 /**
  * The Node for an Integer Binary Tree
  *
